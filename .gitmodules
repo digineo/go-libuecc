@@ -1,0 +1,3 @@
+[submodule "testdata/libuecc"]
+	path = testdata/libuecc
+	url = git://git.universe-factory.net/libuecc

@@ -20,7 +20,7 @@ void saveQuad(FILE *f, uint32_t word) {
 	}
 }
 
-void saveUnpacked(const char const *filename, const uint32_t a[32]) {
+void saveUnpacked(const char *filename, const uint32_t a[32]) {
 	FILE *f;
 	if ((f = fopen(filename, "w")) == NULL) {
 		error(1, errno, "cannot open %s", filename);
@@ -32,7 +32,7 @@ void saveUnpacked(const char const *filename, const uint32_t a[32]) {
 	fclose(f);
 }
 
-void saveInt256(const char const *filename, const ecc_int256_t *in) {
+void saveInt256(const char *filename, const ecc_int256_t *in) {
 	FILE *f;
 	if ((f = fopen(filename, "w")) == NULL) {
 		error(1, errno, "cannot open %s", filename);
@@ -47,7 +47,7 @@ void saveInt256(const char const *filename, const ecc_int256_t *in) {
 	fclose(f);
 }
 
-void saveWork(const char const *filename, const ecc_25519_work_t *p) {
+void saveWork(const char *filename, const ecc_25519_work_t *p) {
 	FILE *f;
 	if ((f = fopen(filename, "w")) == NULL) {
 		error(1, errno, "cannot open %s", filename);

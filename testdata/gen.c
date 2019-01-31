@@ -225,6 +225,20 @@ int main(int argc, char const *argv[]) {
 		}},
 	};
 
+	{
+		ecc_25519_work_t w = ecc_25519_work_identity;
+
+		ecc_25519_double(&w, &ecc_25519_work_base_legacy);
+		saveWork("cases/ecc_point_double", &w);
+	}
+
+	{
+		ecc_25519_work_t w = {0};
+
+		ecc_25519_add(&w, &ecc_25519_work_identity, &ecc_25519_work_base_legacy);
+		saveWork("cases/ecc_point_add", &w);
+	}
+
 	const size_t flen = 32*sizeof(char); // [sic]
 	char *filename = malloc(flen);
 	for (int i = 0; i < 4; ++i) {
@@ -246,6 +260,15 @@ int main(int argc, char const *argv[]) {
 		if (1||access(filename, F_OK) == -1) {
 			fprintf(stderr, " ecc_key_unpacked_%d", i);
 			saveWork(filename, &p);
+		}
+
+		snprintf(filename, flen, "cases/ecc_key_derived_public_%d", i);
+		{
+			ecc_25519_work_t work;
+			ecc_int256_t pub;
+			ecc_25519_scalarmult_bits(&work, &key, &ecc_25519_work_base_legacy, 256);
+			ecc_25519_store_packed_legacy(&pub, &work);
+			saveInt256(filename, &pub);
 		}
 	}
 	free(filename);

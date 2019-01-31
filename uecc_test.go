@@ -80,6 +80,26 @@ func loadPoint(fname string) *Point {
 	return p
 }
 
+func TestPointDouble(t *testing.T) {
+	expected := loadPoint("testdata/cases/ecc_point_double")
+
+	actual := PointBaseLegacy().Double()
+
+	if !bitIdenticalWork(expected, actual) {
+		t.Errorf(errmsg, expected, actual)
+	}
+}
+
+func TestPointAdd(t *testing.T) {
+	expected := loadPoint("testdata/cases/ecc_point_add")
+
+	actual := pointIdentity.Add(PointBaseLegacy())
+
+	if !bitIdenticalWork(expected, actual) {
+		t.Errorf(errmsg, expected, actual)
+	}
+}
+
 func TestSimpleArithmetics(t *testing.T) {
 	z := zero.add(zero)
 	if !bitIdentical(z, zero) {
@@ -169,7 +189,7 @@ func TestSelectPoint(t *testing.T) {
 	}
 }
 
-func TestLoadPackedLegacy(t *testing.T) {
+func TestKeyLoading(t *testing.T) {
 	testKeys := []string{
 		"83369beddca777585167520fb54a7fb059102bf4e0a46dd5fb1c633d83db77a2",
 		"b4dbdb0c05dd28204534fa27c5afca4dcda5397d833e3064f7a7281b249dc7c7",
@@ -191,6 +211,20 @@ func TestLoadPackedLegacy(t *testing.T) {
 			expected := loadPoint(fmt.Sprintf("testdata/cases/ecc_key_unpacked_%d", i))
 
 			if !bitIdenticalWork(actual, expected) {
+				t.Errorf(errmsg, expected, actual)
+			}
+		})
+
+		t.Run(fmt.Sprintf("derive%d", i), func(t *testing.T) {
+			k1 := loadInt256Hex(keyStr)
+
+			work := PointBaseLegacy().ScalarMult(k1)
+			actual := work.StorePackedLegacy()
+
+			expected := loadInt256File(
+				fmt.Sprintf("testdata/cases/ecc_key_derived_public_%d", i))
+
+			if bytes.Compare(actual.Bytes(), expected.Bytes()) != 0 {
 				t.Errorf(errmsg, expected, actual)
 			}
 		})

@@ -607,7 +607,7 @@ func (w *Point) StoreXYLegacy() (x, y *Int256) {
 	x, y = &Int256{}, &Int256{}
 
 	Z := w.Z.recip()
-	X := Z.mult(w.X).freeze()
+	X := Z.mult(w.X).mult(ed25519ToLegacy).freeze()
 	for i := 0; i < 32; i++ {
 		x[i] = uint8(X[i])
 	}
@@ -741,14 +741,19 @@ func (w *Point) Negate() *Point {
 // w.Double() is equivalent to w.add(w), but faster.
 func (w *Point) Double() *Point {
 	A := w.X.square()
+
 	B := w.Y.square()
+
 	t0 := w.Z.square()
 	C := t0.multInt(2)
-	D := A.multInt(486664)
-	t1 := w.X.add(w.Y)
-	t2 := t1.square()
-	t3 := t2.sub(A)
-	E := t3.sub(B)
+
+	D := zero.sub(A)
+
+	t0 = w.X.add(w.Y)
+	t1 := t0.square()
+	t0 = t1.sub(A)
+	E := t0.sub(B)
+
 	G := D.add(B)
 	F := G.sub(C)
 	H := D.sub(B)
@@ -763,20 +768,26 @@ func (w *Point) Double() *Point {
 
 // Add adds two points of the Elliptic Curve
 func (w *Point) Add(o *Point) *Point {
-	A := w.X.mult(o.X)
-	B := w.Y.mult(o.Y)
-	t0 := o.T.multInt(486660)
+	t0 := w.Y.sub(w.X)
+	t1 := t0.multInt(60833)
+	t0 = o.Y.sub(o.X)
+	A := t0.mult(t1)
+
+	t0 = w.Y.add(w.X)
+	t1 = t0.multInt(60833)
+	t0 = o.Y.add(o.X)
+	B := t0.mult(t1)
+
+	t0 = o.T.multInt(121665)
 	C := w.T.mult(t0)
-	D := w.Z.mult(o.Z)
-	t1 := w.X.add(w.Y)
-	t2 := o.X.add(o.Y)
-	t3 := t1.mult(t2)
-	t4 := t3.sub(A)
-	E := t4.sub(B)
-	F := D.sub(C)
-	G := D.add(C)
-	t5 := A.multInt(486664)
-	H := B.sub(t5)
+
+	t0 = o.Z.multInt(2*60833)
+	D := w.Z.mult(t0)
+
+	E := B.sub(A)
+	F := D.add(C)
+	G := D.sub(C)
+	H := B.add(A)
 
 	return &Point{
 		X: E.mult(F),

@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Werror -pedantic -std=c99
+CFLAGS = -Wall -Wno-deprecated-declarations -Werror -pedantic -std=c99
 LDFLAGS = -I./libuecc/include  -luecc
 
 .PHONY: data

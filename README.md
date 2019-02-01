@@ -1,5 +1,9 @@
 # go-libuecc
 
+[![CircleCI](https://circleci.com/gh/digineo/go-libuecc/tree/master.svg?style=shield)](https://circleci.com/gh/digineo/go-libuecc/tree/master)
+[![Codecov](http://codecov.io/github/digineo/go-libuecc/coverage.svg?branch=master)](http://codecov.io/github/digineo/go-libuecc?branch=master)
+
+
 This is a port of the [libuecc v7](https://git.universe-factory.net/libuecc) C library to Go. It is used to
 reduce the C call overhead in our [fastd](https://github.com/digineo/fastd) implementation.
 

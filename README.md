@@ -1,14 +1,11 @@
 # go-libuecc
 
-This is a port of the [libuecc v6][] C library to Go. It is used to
-reduce the C call overhead in our [fastd][] implementation.
+This is a port of the [libuecc v7](https://git.universe-factory.net/libuecc) C library to Go. It is used to
+reduce the C call overhead in our [fastd](https://github.com/digineo/fastd) implementation.
 
 **WARNING:** While extra care was taken while porting the code, this
 was not crucifyingly reviewed by the original author, nor by other
 security experts. Expect some nasty bugs!
-
-[libuecc]: https://git.universe-factory.net/libuecc
-[fastd]:   https://github.com/digineo/fastd/
 
 ## Notes
 

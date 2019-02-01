@@ -5,7 +5,7 @@
 // representation and coordinates or compressed representation. The functions
 // ending with Ed25519 use the same representation as original Ed25519
 // implementation and should be used by new software. The functions with the
-// suffix Legacy are provided for compatiblity with libuecc version before
+// suffix Legacy are provided for compatibility with libuecc version before
 // v6.
 //
 // Ed25519 and the legacy representation are isomorphic, they use a Twisted

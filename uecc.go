@@ -781,7 +781,7 @@ func (w *Point) Add(o *Point) *Point {
 	t0 = o.T.multInt(121665)
 	C := w.T.mult(t0)
 
-	t0 = o.Z.multInt(2*60833)
+	t0 = o.Z.multInt(2 * 60833)
 	D := w.Z.mult(t0)
 
 	E := B.sub(A)

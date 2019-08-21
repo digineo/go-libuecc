@@ -1,5 +1,9 @@
 package libuecc
 
+import (
+	"math"
+)
+
 // The order of the prime field
 //
 // The order is 2^252 + 27742317777372353535851937790883648493.
@@ -74,13 +78,12 @@ func reduce(a [32]uint8) [32]uint8 {
 
 	for j := 0; j < 32; j++ {
 		u1 += uint32(a[j]) - uint32(nq)*uint32(gfOrder[j])
-		u2 += uint32(a[j]) - uint32((nq-1))*uint32(gfOrder[j])
+		u2 += uint32(a[j]) - uint32(nq-1)*uint32(gfOrder[j])
 		out1[j] = uint8(u1)
 		out2[j] = uint8(u2)
-		if j != 31 {
-			u1 >>= 8
-			u2 >>= 8
-		}
+
+		u1 = u1>>8 | (u1>>31&1*math.MaxUint32)<<24
+		u2 = u2>>8 | (u2>>31&1*math.MaxUint32)<<24
 	}
 
 	msb := (u1 >> 31) & 1

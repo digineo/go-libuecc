@@ -1,6 +1,6 @@
 # go-libuecc
 
-[![CircleCI](https://circleci.com/gh/digineo/go-libuecc/tree/master.svg?style=shield)](https://circleci.com/gh/digineo/go-libuecc/tree/master)
+[![CircleCI](https://circleci.com/gh/digineo/go-libuecc/tree/master.svg?style=svg)](https://circleci.com/gh/digineo/go-libuecc/tree/master)
 [![Codecov](http://codecov.io/github/digineo/go-libuecc/coverage.svg?branch=master)](http://codecov.io/github/digineo/go-libuecc?branch=master)
 
 

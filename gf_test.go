@@ -44,3 +44,48 @@ func TestInt256_GfReduce(t *testing.T) {
 		})
 	}
 }
+
+func TestInt256_GfSub(t *testing.T) {
+	tt := []struct {
+		inpA string
+		inpB string
+		out  string
+	}{
+		{
+			"dacb7c3120e76dd9b3df60b0f20ba1a66d6c906b43757fe332c3234c98b5a50f",
+			"c79f728e3a4a80318a7c5853d10580bb6d6c906b43757fe332c3234c98b5a51f",
+			"689faee7d21893c0b2e6bc17f5cef7a600000000000000000000000000000080",
+		},
+		{
+			"dacb7c3120e76dd9b3df60b0f20ba1a66d6c906b43757fe332c3234c98b5a50f",
+			"44ecfc71fc962fb9730c845b512d037b0ae6f7648b5dd22bcb25643edceb5d73",
+			"794ae731af1e5249cf035fe1ac82ae6464869806b817adb7679dbf0dbcc9478c",
+		},
+		{
+			"dacb7c3120e76dd9b3df60b0f20ba1a66d6c906b43757fe332c3234c98b5a50f",
+			"844af397faf02aaab7a3dd49f9bab3ca246960ad165addaa2365200a0c96546f",
+			"4c18fbae96614400b5cf0d5026fb1e004a0330be2c1ba2380f5e03428c1f5180",
+		},
+		{
+			"dacb7c3120e76dd9b3df60b0f20ba1a66d6c906b43757fe332c3234c98b5a50f",
+			"e2b6a1f2f7ad7f4ffdcfd0fd7e80023705801f1f28c24ec90fff6f2b1b60ec2e",
+			"3a5c75e02f18a6fa15303c10264e544069ec704c1bb3301a23c4b3207d55b980",
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run("", func(t *testing.T) {
+			assert := assert.New(t)
+
+			a, err := hex.DecodeString(tc.inpA)
+			require.NoError(t, err)
+
+			b, err := hex.DecodeString(tc.inpB)
+			require.NoError(t, err)
+
+			n := NewInt256(a).GfSub(NewInt256(b))
+
+			assert.Equal(tc.out, hex.EncodeToString(n.Bytes()))
+		})
+	}
+}

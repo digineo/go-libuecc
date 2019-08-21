@@ -55,10 +55,11 @@ func (in *Int256) GfSub(o *Int256) *Int256 {
 
 	u := uint32(0)
 	for j := 0; j < 32; j++ {
-		u += uint32(in[j] - o[j] + nq*gfOrder[j])
+		u += uint32(in[j]) - uint32(o[j]) + uint32(nq)*uint32(gfOrder[j])
 		out[j] = uint8(u)
-		u >>= 8
+		u = u>>8 | (u>>31&1*math.MaxUint32)<<24
 	}
+
 	return out
 }
 

@@ -2,10 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
+
 jobs:
-  build:
+  build-golang-1.13: &defaults
     docker:
-      - image: circleci/golang:1.12
+      - image: circleci/golang:1.13
 
     steps:
       - checkout
@@ -13,3 +14,15 @@ jobs:
       # run tests and report coverage
       - run: go test -v -cover -race -coverprofile=coverage.txt ./...
       - run: bash <(curl -s https://codecov.io/bash)
+
+  build-golang-1.11:
+    <<: *defaults
+    docker:
+      - image: circleci/golang:1.11
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-golang-1.11
+      - build-golang-1.13
